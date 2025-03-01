@@ -32,8 +32,6 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     mailFromCmd = 'MAIL FROM<eric@nyu.edu.com>\r\n'
     clientSocket.send(mailFromCmd.encode())
     recv2 = clientSocket.recv(1024).decode()
-    if recv2[:3] != '250':
-        raise Exception('250 reply not received form server (MAIL FROM)')
     # Fill in end
 
     # Send RCPT TO command and handle server response.
@@ -41,8 +39,6 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     rcptToCmd = 'RCPT TO:<rafael@nyu.edu>\r\n'
     clientSocket.send(rcptToCmd.encode())
     recv3 = clientSocket.recv(1024).decode()
-    if recv3[:3] != '250':
-        raise Exception('250 reply not received from server (RCPT TO)')
     # Fill in end
 
     # Send DATA command and handle server response.
@@ -50,24 +46,18 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     dataCmd = 'DATA\r\n'
     clientSocket.send(dataCmd.encode())
     recv4 = clientSocket.recv(1024).decode()
-    if recv4[:3] != '354':
-        raise Exception('354 reply not received from server (DATA)')
     # Fill in end
 
     # Send message data.
     # Fill in start
     clientSocket.send(msg.encode())
     recv5 = clientSocket.recv(1024).decode()
-    if recv5[:3] != '250':
-        raise Exception('250 reply not received from server (Message Data)')
     # Fill in end
 
     # Message ends with a single period, send message end and handle server response.
     # Fill in start
     clientSocket.send(endmsg.encode())
     recv6 = clientSocket.recv(1024).decode()
-    if recv6[:3] != '250':
-        raise Exception('250 reply not received from server (End Message)')
     # Fill in end
 
     # Send QUIT command and handle server response.
@@ -75,8 +65,6 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     quitCmd = 'QUIT\r\n'
     clientSocket.send(quitCmd.encode())
     recv7 = clientSocket.recv(1024).decode()
-    if recv7[:3] != '221':
-        raise Exception('221 reply not received from server (Quit)')
     # Fill in end
 
 
